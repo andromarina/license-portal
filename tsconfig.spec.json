@@ -4,6 +4,8 @@
     "outDir": "./out-tsc/spec",
     "types": [
       "jest",
+      "jest",
+      "jest",
       "jest"
     ]
   },

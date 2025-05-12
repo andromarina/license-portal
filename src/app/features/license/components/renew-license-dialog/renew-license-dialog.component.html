@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Renew License</h2>
+
+<mat-dialog-content>
+  <p><strong>Product:</strong> {{ data.product }}</p>
+  <p><strong>Renewal Period:</strong> {{ data.period }}</p>
+  <p><strong>Price:</strong> ${{ data.price }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onConfirm()">Confirm</button>
+</mat-dialog-actions>

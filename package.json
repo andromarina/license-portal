@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "jest"
   },
   "private": true,
   "dependencies": {
@@ -25,10 +25,12 @@
     "@ngrx/router-store": "^16.3.0",
     "@ngrx/store": "^16.3.0",
     "@ngrx/store-devtools": "^16.3.0",
+    "date-fns": "^4.1.0",
+    "jest-preset-angular": "^14.5.5",
     "rxjs": "~7.8.0",
     "rxjs-etc": "^10.6.2",
     "tslib": "^2.3.0",
-    "zone.js": "~0.13.0"
+    "zone.js": "^0.13.3"
   },
   "devDependencies": {
     "@angular-builders/jest": "19.0.1",
