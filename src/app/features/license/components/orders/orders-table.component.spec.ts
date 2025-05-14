@@ -1,4 +1,3 @@
-import {Zone} from 'zone.js/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrdersTableComponent } from './orders-table.component';
 import { MatCardModule } from '@angular/material/card';

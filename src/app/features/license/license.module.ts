@@ -18,6 +18,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     OrdersTableComponent,
     RenewLicenseDialogComponent
   ],
+  exports: [],
   imports: [
     CommonModule,
     MatTableModule,
