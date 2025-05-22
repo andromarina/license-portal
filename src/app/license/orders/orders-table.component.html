@@ -1,0 +1,59 @@
+<mat-card *ngIf="dataSource.data.length > 0">
+  <mat-card-title class="order-title">
+    &nbsp; Orders
+  </mat-card-title>
+
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+    <!-- Select Column -->
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox
+          (change)="toggleAllRows()"
+          [checked]="isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="toggleRow(row)"
+          [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Order ID Column -->
+    <ng-container matColumnDef="orderId">
+      <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
+      <mat-cell *matCellDef="let order"> {{ order.iD_Order }} </mat-cell>
+    </ng-container>
+
+    <!-- Product Column -->
+    <ng-container matColumnDef="product">
+      <mat-header-cell *matHeaderCellDef> Product </mat-header-cell>
+      <mat-cell *matCellDef="let order">
+        <img class="product-icon" [src]="getBase64(order.product.product_Icon)" alt="Preview" *ngIf="order.product.product_Icon">
+        {{ order.product.product_Name }}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>
+        <button
+          mat-button
+          color="accent"
+          (click)="onGenerateSelected()"
+          [disabled]="!selection.hasValue()">
+          Generate Selected
+        </button>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let order">
+        <button mat-raised-button color="primary" (click)="onGenerate(order)">Generate</button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</mat-card>

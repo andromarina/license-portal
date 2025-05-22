@@ -1,0 +1,41 @@
+<mat-card>
+    <mat-card-title class="customers-title">&nbsp; Customers List</mat-card-title>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Filter customers</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Type to filter" />
+    </mat-form-field>
+
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+            <mat-cell *matCellDef="let customer">{{ customer.iD_Customer }}</mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+            <mat-cell *matCellDef="let customer">
+                {{ customer.customer_FirstName }} {{ customer.customer_LastName }}
+            </mat-cell>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+            <mat-cell *matCellDef="let customer">{{ customer.customer_Email }}</mat-cell>
+        </ng-container>
+
+        <!-- Organization Column -->
+        <ng-container matColumnDef="organization">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Company</mat-header-cell>
+            <mat-cell *matCellDef="let customer">{{ customer.customer_Organization }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)" style="cursor: pointer;">
+        </mat-row>
+
+    </mat-table>
+</mat-card>
