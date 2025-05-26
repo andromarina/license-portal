@@ -50,8 +50,7 @@ export class LicenseEffects {
             const blob = response.body!;       
             const contentDisp = response.headers.get('Content-Disposition') || '';
             
-            const match = /filename="?([^";\r\n]+)"?/i.exec(contentDisp);  
-            console.log(response.headers);         
+            const match = /filename="?([^";\r\n]+)"?/i.exec(contentDisp);
             const filename = match && match[1] ? match[1] : 'download.zip';
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -59,6 +58,27 @@ export class LicenseEffects {
             a.download = filename;
             a.click();
             window.URL.revokeObjectURL(url);
+          }),
+          map(() =>
+            LicenseActions.generateLicenseSuccess()
+          ),
+          catchError(error =>
+            of(LicenseActions.generateLicenseFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  generateAndSend$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LicenseActions.generateAndSend),
+      switchMap(({ orders, emails }) =>
+
+        this.api.generateAndSendLicenses(orders.map(o => o.iD_Order), emails).pipe(
+          tap(response => {
+            console.log(response);
+           
           }),
           map(() =>
             LicenseActions.generateLicenseSuccess()

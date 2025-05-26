@@ -45,8 +45,15 @@
           color="accent"
           (click)="onGenerateSelected()"
           [disabled]="!selection.hasValue()">
-          Generate Selected
+           <mat-icon>download</mat-icon>
         </button>
+         <button
+          mat-button
+          color="accent"
+          (click)="onSendSelected()"
+          [disabled]="!selection.hasValue()">
+           <mat-icon>email</mat-icon>
+        </button>   
       </mat-header-cell>
       <mat-cell *matCellDef="let order">
         <button mat-raised-button color="primary" (click)="onGenerate(order)">Generate</button>

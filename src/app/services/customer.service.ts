@@ -10,7 +10,7 @@ export interface Customer {
   Customer_LastName: string;
   Customer_JobTitle: string;
   Customer_Organization: string;
-  Customer_Email: string;
+  customer_Email: string;
   Customer_Phone: string;
   Customer_Fax: string;
   Customer_Address1: string;

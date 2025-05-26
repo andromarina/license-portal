@@ -14,6 +14,11 @@ export const generateLicense = createAction(
     '[License] generate multiple Licenses',
     props<{ orders: Order[] }>()
   );
+
+  export const generateAndSend = createAction(
+    '[License] generate and send multiple Licenses',
+    props<{ orders: Order[], emails: string[] }>()
+  );
   
   export const generateLicenseSuccess = createAction(
     '[License] generate License Success'

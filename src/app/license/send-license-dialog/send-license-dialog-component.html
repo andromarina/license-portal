@@ -1,0 +1,32 @@
+<!-- email-dialog.component.html -->
+<h2 mat-dialog-title>Send License</h2>
+
+<mat-dialog-content>
+  <mat-form-field appearance="fill" style="width:100%">
+    <mat-label>Email address</mat-label>
+    <input
+      matInput
+      name="email"
+      type="email"
+      [(ngModel)]="email"
+      placeholder="you@example.com"
+      required
+      email
+    />
+    <mat-error *ngIf="email && !emailPattern.test(email)">
+    Please enter a valid email
+  </mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="!email"
+    (click)="onSend()"
+  >
+    Send
+  </button>
+</mat-dialog-actions>

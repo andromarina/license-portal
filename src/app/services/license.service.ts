@@ -20,4 +20,8 @@ export class LicenseService {
       { responseType: 'blob' as 'json',
         observe: 'response'});   
   }
+
+  generateAndSendLicenses(orderIds: number[], emails: string[]): Observable<any> {
+      return this.http.post(`${this.apiUrl}/generateAndSend`, {orderIds : orderIds, emails: emails});   
+  }
 }

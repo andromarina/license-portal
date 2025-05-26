@@ -21,24 +21,27 @@ import { customerReducer } from './store/license.reducer';
 import { LicenseEffects } from './store/license.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { CdkTableModule } from '@angular/cdk/table';
+import { SendLicenseDialogComponent } from './send-license-dialog/send-license-dialog-component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     LicenseComponent,
     OrdersTableComponent,
     CustomerTableComponent,
-    GenerateLicenseDialogComponent
+    GenerateLicenseDialogComponent,
+    SendLicenseDialogComponent
   ],
   exports: [],
   imports: [
     CommonModule,
     MatSortModule,
     MatFormFieldModule,
+    FormsModule,
     MatTableModule,
     MatCardModule,
     CdkTableModule,
     MatCheckboxModule,
-    MatButtonModule,
     MatButtonModule,
     MatIconModule,
     MatInputModule,

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { differenceInDays } from 'date-fns';
-import { generateLicense, generateMultipleLicenses } from '../store/license.actions';
+import { generateAndSend, generateLicense, generateMultipleLicenses } from '../store/license.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
@@ -10,6 +10,7 @@ import { Customer, CustomerService, Order } from 'src/app/services/customer.serv
 import { MatTableDataSource } from '@angular/material/table';
 import { getSelectedCustomer } from '../store/license.selectors';
 import { SelectionModel } from '@angular/cdk/collections';
+import { SendLicenseDialogComponent, SendLicenseDialogData } from '../send-license-dialog/send-license-dialog-component';
 
 
 @Component({
@@ -76,6 +77,31 @@ export class OrdersTableComponent implements OnInit {
   onGenerateSelected() {
     this.store.dispatch(generateMultipleLicenses({orders: this.selection.selected}));
     this.selection.clear();
+  }
+  
+
+  onSendSelected() {
+    var userEmail: string | undefined = "test@gmail.com";
+     this.store.select(getSelectedCustomer).subscribe({
+      next: (data: Customer | null) => {
+        userEmail = data?.customer_Email;
+      }
+    });
+    
+    const dialogRef = this.dialog.open<SendLicenseDialogComponent, SendLicenseDialogData, string>(
+      SendLicenseDialogComponent,
+      {
+        width: '400px',
+        data: { email: userEmail }
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {       
+         this.store.dispatch(generateAndSend({orders: this.selection.selected, emails: [result]}));
+         this.selection.clear();
+      }
+    });
   }
 
   toggleAllRows() {
