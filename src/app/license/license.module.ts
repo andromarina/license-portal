@@ -4,7 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { LicenseRoutingModule } from './license-routing.module';
 import { LicenseComponent } from './license.component';
 import { OrdersTableComponent } from './orders/orders-table.component';
@@ -43,6 +43,7 @@ import { FormsModule } from '@angular/forms';
     CdkTableModule,
     MatCheckboxModule,
     MatButtonModule,
+    MatTooltipModule,
     MatIconModule,
     MatInputModule,
     MatDialogModule,

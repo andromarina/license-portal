@@ -43,6 +43,7 @@
         <button
           mat-button
           color="accent"
+          matTooltip="Download multiple licenses zipped"
           (click)="onGenerateSelected()"
           [disabled]="!selection.hasValue()">
            <mat-icon>download</mat-icon>
@@ -50,6 +51,7 @@
          <button
           mat-button
           color="accent"
+          matTooltip="Send multiple licenses zipped"
           (click)="onSendSelected()"
           [disabled]="!selection.hasValue()">
            <mat-icon>email</mat-icon>
