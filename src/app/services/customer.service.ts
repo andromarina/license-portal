@@ -82,7 +82,7 @@ export interface ParsedLicense {
 
 
 @Injectable({
-  providedIn: 'root' // makes this service injectable app-wide
+  providedIn: 'root'
 })
 export class CustomerService {
   private readonly apiUrl = `${environment.apiBaseUrl}/customers`;

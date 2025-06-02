@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { login } from '../store/auth.actions';
-import { AppState } from 'src/app/app.store';
+import * as AuthActions from '../store/auth.actions';
+import { selectAuthError, selectAuthLoading, selectIsAuthenticated } from '../store/auth.selectors';
+import { Router } from '@angular/router';
+import { filter, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -10,20 +12,25 @@ import { AppState } from 'src/app/app.store';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  form: FormGroup;
-  loading$;
+  loginForm: FormGroup;
+  loading$: Observable<boolean>;
+  error$: Observable<string | null>;
 
-  constructor(private fb: FormBuilder, private store: Store<AppState>) {
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+  constructor(private fb: FormBuilder, private store: Store, private router: Router) {
+    this.loading$ = this.store.select(selectAuthLoading);
+    this.error$ = this.store.select(selectAuthError);
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
       password: ['', Validators.required]
     });
-    this.loading$ = this.store.select(state => state.auth.loading);
+    this.store.select(selectIsAuthenticated).pipe(filter(v => v)).subscribe(() => {
+      this.router.navigate(['/license']);    
+    });
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      this.store.dispatch(login(this.form.value));
+  onSubmit(): void {
+    if (this.loginForm.valid) {
+      this.store.dispatch(AuthActions.login({ credentials: this.loginForm.value }));
     }
   }
 }

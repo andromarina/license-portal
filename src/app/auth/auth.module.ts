@@ -26,8 +26,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    StoreModule.forFeature('auth', authReducer),
-    EffectsModule.forFeature([AuthEffects]),
+    StoreModule.forFeature('auth', authReducer),    
   ],
   providers: [AuthGuard]
 })
