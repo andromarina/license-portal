@@ -20,8 +20,11 @@ export class AuthEffects {
       ofType(AuthActions.login),
       mergeMap(({ credentials }) =>
         this.authService.login(credentials).pipe(
-          tap(response => {
-            localStorage.setItem('accessToken', response.token);
+          tap(res => {
+            const rawToken = res.token.startsWith('Bearer ')
+            ? res.token.replace('Bearer ', '')
+            : res.token;
+            localStorage.setItem('accessToken', rawToken);
           }),
           map(response => AuthActions.loginSuccess({ response })),
           catchError(err =>
@@ -76,6 +79,9 @@ refreshToken$ = createEffect(() =>
       this.authService.refreshToken().pipe(
         tap(res => {
           console.log('[Effect] Refresh token success', res);
+          //  const rawToken = res.token.startsWith('Bearer ')
+          //   ? res.token.replace('Bearer ', '')
+          //   : res.token;
           localStorage.setItem('accessToken', res.token);
         }),
         map(res =>
