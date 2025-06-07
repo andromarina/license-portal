@@ -12,6 +12,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthInterceptor } from './auth/guards/auth.interceptor';
 import { AuthEffects } from './auth/store/auth.effects';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { AuthEffects } from './auth/store/auth.effects';
   imports: [
     MatToolbarModule,
     BrowserModule,
+    MatIconModule,
+    MatTooltipModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
