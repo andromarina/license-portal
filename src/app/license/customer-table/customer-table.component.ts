@@ -36,7 +36,6 @@ export class CustomerTableComponent implements OnInit {
   }
 
   onRowClicked(customer: Customer): void {
-    console.log('Clicked row:', customer);
     this.store.dispatch(selectCustomer({ customer }));
   }
 }

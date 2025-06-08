@@ -2,6 +2,10 @@
   <mat-card-title class="order-title">
     &nbsp; Orders
   </mat-card-title>
+   <mat-form-field appearance="fill">
+        <mat-label>Filter orders</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Type to filter" />
+    </mat-form-field>
 
   <mat-table [dataSource]="dataSource" class="mat-elevation-z2">
     <!-- Select Column -->
@@ -34,6 +38,15 @@
       <mat-cell *matCellDef="let order">
         <img class="product-icon" [src]="getBase64(order.product.product_Icon)" alt="Preview" *ngIf="order.product.product_Icon">
         {{ order.product.product_Name }}
+      </mat-cell>
+    </ng-container>
+    order_RegistrationContent
+
+    <!-- Company Column -->
+    <ng-container matColumnDef="company">
+      <mat-header-cell *matHeaderCellDef> Company </mat-header-cell>
+      <mat-cell *matCellDef="let order">
+        {{ order.order_RegistrationContent?.company }}
       </mat-cell>
     </ng-container>
 
