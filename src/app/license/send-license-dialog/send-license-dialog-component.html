@@ -17,6 +17,20 @@
     Please enter a valid email
   </mat-error>
   </mat-form-field>
+  <mat-form-field appearance="fill" style="width:100%">
+    <mat-label>Number of days</mat-label>
+    <input
+      matInput
+      name="numDays"
+      type="number"
+      [(ngModel)]="numDays"
+      placeholder="30"
+      required
+    />
+    <mat-error *ngIf="numDays">
+    Please enter number of days
+  </mat-error>
+  </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

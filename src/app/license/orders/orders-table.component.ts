@@ -88,17 +88,18 @@ export class OrdersTableComponent implements OnInit {
       }
     });
     
-    const dialogRef = this.dialog.open<SendLicenseDialogComponent, SendLicenseDialogData, string>(
+    const dialogRef = this.dialog.open<SendLicenseDialogComponent, SendLicenseDialogData, SendLicenseDialogData>(
       SendLicenseDialogComponent,
       {
         width: '400px',
-        data: { email: userEmail }
+        data: { email: userEmail, numDays: 15 }
       }
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {       
-         this.store.dispatch(generateAndSend({orders: this.selection.selected, emails: [result]}));
+      if (result) { 
+        console.log(result); 
+         this.store.dispatch(generateAndSend({orders: this.selection.selected, emails: [result.email], numDays: result.numDays}));
          this.selection.clear();
       }
     });

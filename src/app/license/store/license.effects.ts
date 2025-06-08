@@ -73,9 +73,9 @@ export class LicenseEffects {
   generateAndSend$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LicenseActions.generateAndSend),
-      switchMap(({ orders, emails }) =>
+      switchMap(({ orders, emails, numDays  }) =>
 
-        this.api.generateAndSendLicenses(orders.map(o => o.iD_Order), emails).pipe(
+        this.api.generateAndSendLicenses(orders.map(o => o.iD_Order), emails, numDays).pipe(
           tap(response => {
             console.log(response);
            

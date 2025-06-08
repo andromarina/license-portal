@@ -79,9 +79,6 @@ refreshToken$ = createEffect(() =>
       this.authService.refreshToken().pipe(
         tap(res => {
           console.log('[Effect] Refresh token success', res);
-          //  const rawToken = res.token.startsWith('Bearer ')
-          //   ? res.token.replace('Bearer ', '')
-          //   : res.token;
           localStorage.setItem('accessToken', res.token);
         }),
         map(res =>

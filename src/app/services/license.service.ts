@@ -21,7 +21,7 @@ export class LicenseService {
         observe: 'response'});   
   }
 
-  generateAndSendLicenses(orderIds: number[], emails: string[]): Observable<any> {
-      return this.http.post(`${this.apiUrl}/generateAndSend`, {orderIds : orderIds, emails: emails});   
+  generateAndSendLicenses(orderIds: number[], emails: string[], numDays: number): Observable<any> {
+      return this.http.post(`${this.apiUrl}/generateAndSend`, {orderIds : orderIds, emails: emails, numDays: numDays});   
   }
 }

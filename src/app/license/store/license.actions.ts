@@ -17,7 +17,7 @@ export const generateLicense = createAction(
 
   export const generateAndSend = createAction(
     '[License] generate and send multiple Licenses',
-    props<{ orders: Order[], emails: string[] }>()
+    props<{ orders: Order[], emails: string[], numDays: number; }>()
   );
   
   export const generateLicenseSuccess = createAction(
