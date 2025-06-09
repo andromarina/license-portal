@@ -14,6 +14,7 @@ import { AuthInterceptor } from './auth/guards/auth.interceptor';
 import { AuthEffects } from './auth/store/auth.effects';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     BrowserModule,
     MatIconModule,
     MatTooltipModule,
+    MatSnackBarModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,

@@ -1,10 +1,10 @@
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, ignoreElements, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { LicenseService } from 'src/app/services/license.service';
 import * as LicenseActions from './license.actions';
-import { of } from 'rxjs';
+import { from, of } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class LicenseEffects {
@@ -76,10 +76,7 @@ export class LicenseEffects {
       switchMap(({ orders, emails, numDays  }) =>
 
         this.api.generateAndSendLicenses(orders.map(o => o.iD_Order), emails, numDays).pipe(
-          tap(response => {
-            console.log(response);
-           
-          }),
+          
           map(() =>
             LicenseActions.generateLicenseSuccess()
           ),
@@ -97,11 +94,43 @@ export class LicenseEffects {
       this.actions$.pipe(
         ofType(LicenseActions.generateLicenseSuccess),
         tap(() =>
-          this.snackbar.open('License generated successfully!', 'Close', {
-            duration: 3000
+          this.snackbar.open('Operation completed successfully!', 'Close', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
           })
         )
       ),
     { dispatch: false }
   );
+
+  generateLicenseFailure$ = createEffect(
+  () =>
+    this.actions$.pipe(
+      ofType(LicenseActions.generateLicenseFailure),
+      mergeMap(err => {
+        const errorBlob: Blob = err?.error?.error ?? err?.error;
+
+        return from(errorBlob.text()).pipe(
+          map(text => {
+            try {
+              const body = JSON.parse(text);
+              return body?.error?.message ?? body?.message ?? text;
+            } catch {
+              return text;
+            }
+          }),
+          tap(userMsg =>
+            this.snackbar.open(`Operation failed! ${userMsg}`, 'Close', {
+              duration: 5000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+            })
+          ),
+          ignoreElements()
+        );
+      })
+    ),
+  { dispatch: false }
+);
 }

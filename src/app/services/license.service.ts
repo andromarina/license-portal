@@ -16,7 +16,7 @@ export class LicenseService {
   }
 
   generateMultipleLicense(orderIds: number[]): Observable<any> {
-    return this.http.post(`${this.apiUrl}/generateMultipleLicenses`, {orderIds : orderIds}, 
+    return this.http.post(`${this.apiUrl}/generateMultipleLicenses`, {orderIds : orderIds, emails: []}, 
       { responseType: 'blob' as 'json',
         observe: 'response'});   
   }

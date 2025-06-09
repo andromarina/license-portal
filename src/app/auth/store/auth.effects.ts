@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AuthActions from './auth.actions';
 import { AuthService } from '../../services/auth.service';
-import { catchError, exhaustMap, interval, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { catchError, interval, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 
 export class AuthEffects {
   constructor(private actions$: Actions, 
     private authService: AuthService,
-    private router: Router) {
-      console.log('[AuthEffects] Initialized');
-    }
+    private router: Router,
+    private snackbar: MatSnackBar) {}
   
 
   login$ = createEffect(() =>
@@ -107,5 +107,20 @@ checkAuthOnInit$ = createEffect(() =>
     })
   )
 );
+
+loginLicenseFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.loginFailure),
+        tap((err) =>
+          this.snackbar.open('Login failed! ' + err.error, 'Close', {
+            duration: 5000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          })
+        )
+      ),
+    { dispatch: false }
+  );
 
 }

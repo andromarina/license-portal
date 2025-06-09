@@ -6,7 +6,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './store/auth.reducer';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -20,7 +19,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
-    MatSnackBarModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,

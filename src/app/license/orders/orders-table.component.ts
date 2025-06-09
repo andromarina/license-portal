@@ -40,100 +40,101 @@ export class OrdersTableComponent implements OnInit {
     }
   }
 
-    ngOnInit(): void {
-      this.store.select(getSelectedCustomer).subscribe({
-        next: (data: Customer | null) => {
-          this.loadOrders(data?.iD_Customer);
-        }
-      });
-    }
-
-    loadOrders(customerId: number | undefined) {
-      if (!customerId) {
-        return;
+  ngOnInit(): void {
+    this.store.select(getSelectedCustomer).subscribe({
+      next: (data: Customer | null) => {
+        this.loadOrders(data?.iD_Customer);
       }
-      this.customerService.getCustomerOrders(customerId).subscribe({
-        next: (data: Order[]) => {
-          this.dataSource.data = data;
-        },
-        error: (err: any) => console.error('Error loading customer orders', err)
-      });
+    });
+  }
+
+  loadOrders(customerId: number | undefined) {
+    if (!customerId) {
+      return;
     }
+    this.customerService.getCustomerOrders(customerId).subscribe({
+      next: (data: Order[]) => {
+        this.dataSource.data = data;
+      },
+      error: (err: any) => console.error('Error loading customer orders', err)
+    });
+  }
 
-    getDaysLeft(expirationDate: string): number {
-      return differenceInDays(new Date(expirationDate), new Date());
-    }
+  getDaysLeft(expirationDate: string): number {
+    return differenceInDays(new Date(expirationDate), new Date());
+  }
 
-    getBase64(rawBase64: string) {
-      return 'data:image/jpeg;base64,' + rawBase64;
-    }
+  getBase64(rawBase64: string) {
+    return 'data:image/jpeg;base64,' + rawBase64;
+  }
 
-    onGenerate(order: Order) {
-      const dialogRef = this.dialog.open(GenerateLicenseDialogComponent, {
-        data: {
-          product: order.product.product_Name,
-          userName: order.order_RegistrationContent.userName,
-          numDays: order.order_RegistrationContent.daysExpiration,
-          company: order.order_RegistrationContent.company,
-        }
-      });
+  onGenerate(order: Order) {
+    const dialogRef = this.dialog.open(GenerateLicenseDialogComponent, {
+      data: {
+        product: order.product.product_Name,
+        userName: order.order_RegistrationContent.userName,
+        numDays: order.order_RegistrationContent.daysExpiration,
+        company: order.order_RegistrationContent.company,
+      }
+    });
 
-      dialogRef.afterClosed().subscribe(confirmed => {
-        if (confirmed) {
-          this.store.dispatch(generateLicense({ order: order }));
-        }
-      });
-    }
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.store.dispatch(generateLicense({ order: order }));
+      }
+    });
+  }
 
-    onGenerateSelected() {
-      this.store.dispatch(generateMultipleLicenses({ orders: this.selection.selected }));
-      this.selection.clear();
-    }
+  onGenerateSelected() {
+    this.store.dispatch(generateMultipleLicenses({ orders: this.selection.selected }));
+    this.selection.clear();
+  }
 
-    onSendSelected() {
-      var userEmail: string | undefined = "test@gmail.com";
-      this.store.select(getSelectedCustomer).subscribe({
-        next: (data: Customer | null) => {
-          userEmail = data?.customer_Email;
-        }
-      });
+  onSendSelected() {
+    var userEmail: string | undefined = "test@gmail.com";
+    this.store.select(getSelectedCustomer).subscribe({
+      next: (data: Customer | null) => {
+        userEmail = data?.customer_Email;
+      }
+    });
 
-      const dialogRef = this.dialog.open<SendLicenseDialogComponent, SendLicenseDialogData, SendLicenseDialogData>(
-        SendLicenseDialogComponent,
-        {
-          width: '400px',
-          data: { email: userEmail, numDays:  this.dataSource.data[0]?.order_RegistrationContent?.daysExpiration }
-        }
-      );
+    const dialogRef = this.dialog.open<SendLicenseDialogComponent, SendLicenseDialogData, SendLicenseDialogData>(
+      SendLicenseDialogComponent,
+      {
+        width: '400px',
+        data: { email: userEmail, numDays: this.dataSource.data[0]?.order_RegistrationContent?.daysExpiration }
+      }
+    );
 
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.store.dispatch(generateAndSend({ orders: this.selection.selected, emails: [result.email], numDays: result.numDays }));
-          this.selection.clear();
-        }
-      });
-    }
-
-    toggleAllRows() {
-      if (this.isAllSelected()) {
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.store.dispatch(generateAndSend({ orders: this.selection.selected, emails: [result.email], numDays: result.numDays }));
         this.selection.clear();
-      } else {
-        this.selection.select(...this.dataSource.data);
       }
-    }
+    });
+  }
 
-    applyFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-      this.dataSource.filter = filterValue;
-    }
-
-    isAllSelected() {
-      const numSelected = this.selection.selected.length;
-      const numRows = this.dataSource.data.length;
-      return numSelected === numRows;
-    }
-
-    toggleRow(row: any) {
-      this.selection.toggle(row);
+  toggleAllRows() {
+    const filtered = this.dataSource.filteredData;
+    if (this.isAllSelected()) {
+      this.selection.deselect(...filtered);
+    } else {
+      this.selection.select(...filtered);
     }
   }
+
+  isAllSelected() {
+    const filtered = this.dataSource.filteredData;
+    // true if every visible row is selected (and there's at least one)
+    return filtered.length > 0 && filtered.every(row => this.selection.isSelected(row));
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
+  }
+
+  toggleRow(row: any) {
+    this.selection.toggle(row);
+  }
+}

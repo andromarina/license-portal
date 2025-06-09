@@ -10,7 +10,6 @@ import { LicenseComponent } from './license.component';
 import { OrdersTableComponent } from './orders/orders-table.component';
 import { GenerateLicenseDialogComponent } from './generate-license-dialog/generate-license-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { CustomerTableComponent } from 'src/app/license/customer-table/customer-table.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -47,7 +46,6 @@ import { FormsModule } from '@angular/forms';
     MatIconModule,
     MatInputModule,
     MatDialogModule,
-    MatSnackBarModule,
     LicenseRoutingModule,
     StoreModule.forFeature('customer', customerReducer),
     EffectsModule.forFeature([LicenseEffects])
