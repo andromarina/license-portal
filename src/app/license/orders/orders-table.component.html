@@ -71,7 +71,23 @@
         </button>   
       </mat-header-cell>
       <mat-cell *matCellDef="let order">
-        <button mat-raised-button color="primary" (click)="onGenerate(order)">Generate</button>
+        <!-- <button mat-raised-button color="primary" (click)="onGenerate(order)">Generate</button> -->
+           <button
+      mat-raised-button
+      color="primary"
+      class="btn-generate-desktop"
+      (click)="onGenerate(order)">
+      Generate
+    </button>
+
+    <button
+      mat-icon-button
+      color="primary"
+      class="btn-generate-mobile"
+      (click)="onGenerate(order)">
+      <mat-icon>autorenew</mat-icon>
+      <span class="product-name">{{ order.product.product_Name }}</span>
+    </button>
       </mat-cell>
     </ng-container>
 

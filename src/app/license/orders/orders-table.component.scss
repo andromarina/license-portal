@@ -31,3 +31,20 @@ button {
 .mat-mdc-button>.mat-icon {
   margin-right: 0;
 }
+
+/* hide mobile button on desktop, and vice versa */
+.btn-generate-mobile  { display: none; }
+.btn-generate-desktop { display: inline-flex; }
+
+@media (max-width: 599px) {
+  .btn-generate-desktop { display: none; }
+  .btn-generate-mobile  { display: inline-flex; align-items: center; }
+  .btn-generate-mobile .product-name {
+    margin-left: 0.4rem;
+    font-size: 0.85rem;
+  }
+  /* optional: make the icon smaller */
+  .btn-generate-mobile mat-icon {
+    font-size: 20px;
+  }
+}
