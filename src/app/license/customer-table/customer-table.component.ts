@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Store } from '@ngrx/store';
 import { selectCustomer } from '../store/license.actions';
+import { getSelectedCustomer } from '../store/license.selectors';
 
 @Component({
   selector: 'app-customer-table',
@@ -13,6 +14,7 @@ import { selectCustomer } from '../store/license.actions';
 export class CustomerTableComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'email', 'organization'];
   dataSource = new MatTableDataSource<Customer>();
+  selectedCustomerId: number | null = null;
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -21,6 +23,9 @@ export class CustomerTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.store
+      .select(getSelectedCustomer)
+      .subscribe(c => this.selectedCustomerId = c?.iD_Customer ?? null);
     this.customerService.getCustomers().subscribe({
       next: (data: Customer[]) => {
         this.dataSource.data = data;
@@ -36,6 +41,7 @@ export class CustomerTableComponent implements OnInit {
   }
 
   onRowClicked(customer: Customer): void {
+    this.selectedCustomerId = customer.iD_Customer; 
     this.store.dispatch(selectCustomer({ customer }));
   }
 }

@@ -34,7 +34,10 @@
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)" style="cursor: pointer;">
+        <mat-row *matRowDef="let row; columns: displayedColumns;" 
+        (click)="onRowClicked(row)" 
+        style="cursor: pointer;"
+        [class.selected]="row.iD_Customer === selectedCustomerId">
         </mat-row>
 
     </mat-table>

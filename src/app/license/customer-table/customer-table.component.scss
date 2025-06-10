@@ -1,2 +1,9 @@
 @import '../license.component.scss';
  
+.selected {
+   background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+.mat-row:hover:not(.selected) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
